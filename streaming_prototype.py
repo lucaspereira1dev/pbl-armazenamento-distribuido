@@ -97,3 +97,30 @@ if __name__ == "__main__":
             print(f"\n{distribution_link}\n")
             print("Copie e cole esta URL no seu navegador para baixar o vídeo.")
             print("(A URL é válida por 1 hora)")
+
+
+# ... (início do script com a função de upload) ...
+
+CLOUDFRONT_DOMAIN = "dkrygojknq0nx.cloudfront.net" # <<< COLOQUE SEU DOMÍNIO DO CLOUDFRONT AQUI
+
+def get_cdn_url(object_name: str):
+    """
+    Constrói a URL pública e permanente do vídeo através da CDN CloudFront.
+    """
+    return f"https://{CLOUDFRONT_DOMAIN}/{object_name}"
+
+if __name__ == "__main__":
+    # ... (código de upload) ...
+    
+    # 2. Simular o upload do vídeo
+    if upload_video(video_file_to_upload, s3_object_key):
+        
+        # 3. Obter a URL de distribuição da CDN
+        # Esta é a URL que seu backend entregaria para o aplicativo cliente.
+        cdn_link = get_cdn_url(s3_object_key)
+        
+        if cdn_link:
+            print("\n--- Distribuição via CDN CloudFront ---")
+            print("A URL do vídeo para o player é:")
+            print(f"\n{cdn_link}\n")
+            print("Esta URL é pública e otimizada para entrega global.")
